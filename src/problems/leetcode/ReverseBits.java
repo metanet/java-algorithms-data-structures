@@ -1,4 +1,4 @@
-public class Solution {
+public class ReverseBits {
     /* https://leetcode.com/problems/reverse-bits/ */
     public int reverseBits(int n) {
         int result = 0;
