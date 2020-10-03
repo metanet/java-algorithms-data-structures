@@ -1,3 +1,4 @@
+package problems.leetcode;
 public class ReverseBits {
     /* https://leetcode.com/problems/reverse-bits/ */
     public int reverseBits(int n) {
