@@ -42,7 +42,7 @@ public class MergeSort {
     // runtime: O(NlgN)
     // space: O(N)
     public static void sort(int[] nums) {
-        if (nums == null || nums.length < 1) {
+        if (nums == null || nums.length < 2) {
             return;
         }
 

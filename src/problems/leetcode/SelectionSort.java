@@ -7,7 +7,7 @@ public class SelectionSort {
     // space complexity: O(1)
     // runtime complexity: O(N^2)
     public static void sort(int[] nums) {
-        if (nums == null || nums.length < 1) {
+        if (nums == null || nums.length < 2) {
             return;
         }
 

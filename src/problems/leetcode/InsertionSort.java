@@ -7,7 +7,7 @@ public class InsertionSort {
     // runtime: O(N^2)
     // space: O(1)
     public static void sort(int[] nums) {
-        if (nums == null || nums.length < 1) {
+        if (nums == null || nums.length < 2) {
             return;
         }
 
