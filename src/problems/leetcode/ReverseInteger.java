@@ -6,30 +6,36 @@ package problems.leetcode;
 public class ReverseInteger {
 
     public static void main(String[] args) {
-        int x = 34056;
-        System.out.println(reverse(x));
+        // System.out.println(reverse(34056));
+        System.out.println(reverse(1534236469));
     }
 
+    // runtime: O(N)
+    // space: O(1)
     public static int reverse(int x) {
-        long num = Math.abs(x), reverseNum = 0, j = 10, p = 10;
+        if (x == 0) {
+            return x;
+        }
 
-        for (int i = 0; i < 11; i++) {
-            long digit = (num % j) / Math.max((j / 10), 1);
-            if (digit > 0) {
-                reverseNum = reverseNum * p + digit;
-                p = 10;
-            } else {
-                p *= 10;
+        int n = x;
+        if (n < 0) {
+            n *= -1;
+        }
+        int y = 0;
+        while (n > 0) {
+            if (y > 0 && Integer.MAX_VALUE / y < 10) {
+                return 0;
             }
 
-            j *= 10;
+            int d = n % 10;
+            y = d + y * 10;
+            n /= 10;
         }
-
         if (x < 0) {
-            reverseNum = -reverseNum;
+            y *= -1;
         }
 
-        return (reverseNum > Integer.MAX_VALUE || reverseNum < Integer.MIN_VALUE) ? 0 : (int) reverseNum;
+        return y;
     }
 
 }

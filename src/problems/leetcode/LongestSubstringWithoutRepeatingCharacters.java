@@ -10,13 +10,14 @@ import java.util.Set;
  */
 public class LongestSubstringWithoutRepeatingCharacters {
 
+    // runtime: O(N^3)
+    // space: O(N)
     public static int lengthOfLongestSubstringBruteForce(String s) {
         int maxLength = 0;
 
         for (int i = 0; i < s.length(); i++) {
             Set<Character> chars = new HashSet<>();
-            int j = i;
-            for (; j < s.length(); j++) {
+            for (int j = i; j < s.length(); j++) {
                 if (!chars.add(s.charAt(j))) {
                     break;
                 }
@@ -27,6 +28,8 @@ public class LongestSubstringWithoutRepeatingCharacters {
         return maxLength;
     }
 
+    // runtime: O(N)
+    // space: O(N)
     public static int lengthOfLongestSubstring(String s) {
         int maxLength = 0, start = 0, n = s.length();
         Map<Character, Integer> indices = new HashMap<>();

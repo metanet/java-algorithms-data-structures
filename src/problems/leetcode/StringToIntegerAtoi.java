@@ -6,11 +6,44 @@ package problems.leetcode;
 public class StringToIntegerAtoi {
 
     public static void main(String[] args) {
-        String s = "9223372036854775808";
-        System.out.println(myAtoi(s));
+        System.out.println(myAtoi("9223372036854775808"));
     }
 
-    public static int myAtoi(String str) {
+    // runtime: O(N)
+    // space: O(1)
+    public static int myAtoi(String s) {
+        if (s == null || s.isBlank()) {
+            return 0;
+        }
+
+        s = s.trim();
+        int sign = 1;
+        int start = 0;
+        if (s.charAt(0) == '-') {
+            sign = -1;
+            start = 1;
+        } else if (s.charAt(0) == '+') {
+            start = 1;
+        }
+
+        long n = 0;
+        for (int i = start; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!Character.isDigit(c)) {
+                break;
+            }
+
+            n = n * 10 + (c - '0');
+            if (n > Integer.MAX_VALUE) {
+                break;
+            }
+        }
+        n *= sign;
+
+        return (int) Math.max(Math.min(n, Integer.MAX_VALUE), Integer.MIN_VALUE);
+    }
+
+    public static int myAtoi2(String str) {
         int sign = 1, i = 0;
         long num = 0;
         while (i < str.length() && str.charAt(i) == ' ') {

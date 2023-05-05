@@ -1,11 +1,52 @@
 package problems.leetcode;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * https://leetcode.com/problems/container-with-most-water/
  */
 public class ContainerWithMostWater {
 
+    // runtime: O(N)
+    // space: O(1)
     public static int maxArea(int[] height) {
+        if (height == null || height.length < 2) {
+            return 0;
+        }
+
+        int i = 0;
+        int j = height.length - 1;
+        int hl = height[i];
+        int hr = height[j];
+        int maxArea = Math.min(hl, hr) * (j - i);
+
+        while (i < j) {
+            if (hl < hr) {
+                while (i < j && hl >= height[i]) {
+                    i++;
+                }
+                if (i < j) {
+                    hl = height[i];
+                }
+            } else {
+                while (i < j && hr >= height[j]) {
+                    j--;
+                }
+                if (i < j) {
+                    hr = height[j];
+                }
+            }
+
+            if (i < j) {
+                maxArea = Math.max(maxArea, Math.min(hl, hr) * (j - i));
+            }
+        }
+
+        return maxArea;
+    }
+
+    public static int maxArea3(int[] height) {
         if (height == null || height.length == 0) {
             return 0;
         }
@@ -26,6 +67,7 @@ public class ContainerWithMostWater {
         return maxArea;
     }
 
+    // brute force
     public static int maxArea2(int[] height) {
         int maxArea = 0, maxH = 0;
         for (int i = 0; i < height.length; i++) {
@@ -40,7 +82,7 @@ public class ContainerWithMostWater {
                     maxArea = area;
                     maxH = h;
                 }
-                //maxArea = Math.max(maxArea, w * h);
+                // maxArea = Math.max(maxArea, w * h);
             }
         }
 
@@ -48,8 +90,9 @@ public class ContainerWithMostWater {
     }
 
     public static void main(String[] args) {
-        int[] heights = {1, 8, 6, 2, 5, 4, 8, 3, 7};
-        System.out.println(maxArea(heights));
+        System.out.println(maxArea(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }));
+        System.out.println(maxArea(new int[] { 1, 0, 0, 0, 0, 0, 0, 2, 2 }));
+        System.out.println(maxArea(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
     }
 
 }
