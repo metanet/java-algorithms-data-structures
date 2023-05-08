@@ -22,27 +22,17 @@ public class SwapNodesInPairs {
         }
     }
 
+    // runtime: O(N)
+    // space: O(N) due to recursive call stack
     public static ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode prev = head, newHead = head.next, n1 = head.next.next;
-
-        newHead.next = head;
-        head.next = n1;
-
-        while (n1 != null && n1.next != null) {
-            ListNode n2 = n1.next;
-            ListNode n3 = n1.next.next;
-            prev.next = n2;
-            n2.next = n1;
-            n1.next = n3;
-            prev = n1;
-            n1 = n3;
-        }
-
-        return newHead;
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
     }
 
     public static void main(String[] args) {

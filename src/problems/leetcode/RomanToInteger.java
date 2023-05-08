@@ -11,6 +11,26 @@ public class RomanToInteger {
     }
 
     public static int romanToInt(String s) {
+        int num = 0, buf = 0;
+        for (int i = 0, j = s.length(); i < j; i++) {
+            int n = toArabicNumber(s.charAt(i));
+            if (buf == 0) {
+                buf = n;
+            } else if (buf / n >= 10) {
+                num += buf;
+                buf = n;
+            } else if (n <= buf) {
+                buf += n;
+            } else {
+                num += (n - buf);
+                buf = 0;
+            }
+        }
+
+        return num + buf;
+    }
+
+    public static int romanToInt2(String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }

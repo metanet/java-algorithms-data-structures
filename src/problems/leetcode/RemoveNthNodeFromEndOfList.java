@@ -22,6 +22,8 @@ public class RemoveNthNodeFromEndOfList {
 
     private int i;
 
+    // runtime: O(N)
+    // space: O(N) due to recursive calls till tail
     public ListNode removeNthFromEnd(ListNode head, int n) {
         return remove(head, n);
     }

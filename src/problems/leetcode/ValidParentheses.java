@@ -8,6 +8,8 @@ import java.util.Deque;
  */
 public class ValidParentheses {
 
+    // runtime: O(N)
+    // space: O(N)
     public boolean isValid(String s) {
         Deque<Character> stack = new ArrayDeque<>();
 

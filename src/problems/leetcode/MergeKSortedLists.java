@@ -17,52 +17,42 @@ public class MergeKSortedLists {
         }
     }
 
-    private static class ListNodeHolder {
-        final ListNode node;
-        final int index;
-
-        ListNodeHolder(ListNode node, int index) {
-            this.node = node;
-            this.index = index;
-        }
-    }
-
+    // runtime: O(NlgN) where N is number of lists
+    // space: O(N)
     public static ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<ListNodeHolder> heap = new PriorityQueue<>(Comparator.comparingInt(holder -> holder.node.val));
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
 
-        for (int i = 0; i < lists.length; i++) {
-            ListNode node = next(lists, i);
+        PriorityQueue<ListNode> heap = new PriorityQueue<>(new Comparator<ListNode>() {
+            public int compare(ListNode a, ListNode b) {
+                return Integer.compare(a.val, b.val);
+            }
+        });
+
+        for (ListNode node : lists) {
             if (node != null) {
-                heap.add(new ListNodeHolder(node, i));
+                heap.add(node);
             }
         }
-
+        
         ListNode head = null, tail = null;
-        while (heap.size() > 0) {
-            ListNodeHolder holder = heap.poll();
+        while (!heap.isEmpty()) {
+            ListNode node = heap.poll();
+            ListNode next = node.next;
+            node.next = null;
             if (head == null) {
-                head = tail = holder.node;
+                head = tail = node;
             } else {
-                tail.next = holder.node;
-                tail = holder.node;
+                tail.next = node;
+                tail = node;
             }
-
-            ListNode next = next(lists, holder.index);
             if (next != null) {
-                heap.add(new ListNodeHolder(next, holder.index));
+                heap.add(next);
             }
         }
-
+        
         return head;
     }
 
-    private static ListNode next(ListNode[] lists, int index) {
-        ListNode next = lists[index];
-        if (next != null) {
-            lists[index] = next.next;
-            next.next = null;
-        }
-
-        return next;
-    }
 }

@@ -14,6 +14,8 @@ public class MergeTwoSortedLists {
         }
     }
 
+    // runtime: O(N)
+    // space: O(1)
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
