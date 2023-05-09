@@ -6,14 +6,25 @@ package problems.leetcode;
 public class SearchInRotatedSortedArray {
 
     public static void main(String[] args) {
-        int[] nums = new int[]{4, 5, 6, 7, 0, 1, 2};
-        System.out.println(searchOne(nums, 1));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 0));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 4));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 5));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 2));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3));
+        System.out.println(search(new int[]{3, 1}, 0));
+        System.out.println(search(new int[]{3, 1}, 1));
+        System.out.println(search(new int[]{3, 1}, 3));
+        System.out.println(search(new int[]{3, 5, 1}, 5));
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 1));
+        System.out.println(search(new int[]{4,5,6,7,8,1,2,3}, 8));
     }
 
-    public static int searchOne(int[] nums, int target) {
+    // runtime: O(lgN)
+    // space: O(1)
+    public static int search(int[] nums, int target) {
         int l = 0, r = nums.length - 1;
         while (l <= r) {
-            int mid = l + (r - l) / 2;
+            int mid = (l + r) / 2;
             if (nums[mid] == target) {
                 return mid;
             } else if (nums[mid] >= nums[l]) {

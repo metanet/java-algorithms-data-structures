@@ -8,6 +8,42 @@ import java.util.Arrays;
 public class FindFirstAndLastPositionOfElementInSortedArray {
 
     public static int[] searchRange(int[] nums, int target) {
+        if (nums == null || nums.length < 1) {
+            return new int[]{-1, -1};
+        }
+
+        // find first index of target
+        int first = -1;
+        int l = 0, r = nums.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (nums[m] < target) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
+        }
+
+        if (l >= nums.length || nums[l] != target) {
+            return new int[]{-1, -1};
+        }
+
+        first = l;
+        // find last index of target
+        r = nums.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (nums[m] > target) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+
+        return new int[]{first, r};
+    }
+
+    public static int[] searchRange2(int[] nums, int target) {
         int startIndex = firstInsertionIndex(nums, target);
 
         // assert that `startIndex` is within the array bounds and that `target`

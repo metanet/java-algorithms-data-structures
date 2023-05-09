@@ -8,86 +8,66 @@ import java.util.Arrays;
 public class ValidSudoku {
 
     static final int BOARD_SIZE = 9;
-    static final int BOX_SIZE = BOARD_SIZE / 3;
+    static final int GRID_SIZE = 3;
 
     public static boolean isValidSudoku(char[][] board) {
-        if (board == null || board.length != BOARD_SIZE || board[0].length != BOARD_SIZE) {
-            throw new IllegalArgumentException();
+        if (board == null || board.length != 9 || board[0].length != 9) {
+            return false;
         }
 
-        boolean[] nums = new boolean[10];
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            Arrays.fill(nums, false);
-            if (!checkRow(board, row, 0, BOARD_SIZE, nums)) {
-                return false;
+        boolean[] found = new boolean[BOARD_SIZE];
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            // validate rows
+            Arrays.fill(found, false);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (!checkCell(board[i][j], found)) {
+                    return false;
+                }
             }
-        }
 
-        for (int col = 0; col < BOARD_SIZE; col++) {
-            Arrays.fill(nums, false);
-            if (!checkCol(board, 0, col, BOARD_SIZE, nums)) {
-                return false;
+            // validate cols
+            Arrays.fill(found, false);
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (!checkCell(board[j][i], found)) {
+                    return false;
+                }
             }
-        }
 
-        for (int row = 0; row < BOARD_SIZE; row += BOX_SIZE) {
-            for (int col = 0; col < BOARD_SIZE; col += BOX_SIZE) {
-                Arrays.fill(nums, false);
-                for (int i = row; i < row + BOX_SIZE; i++) {
-                    if (!checkRow(board, i, col, BOX_SIZE, nums)) {
-                        return false;
-                    }
+            // validate grids
+            Arrays.fill(found, false);
+            for (int j = 0, r = GRID_SIZE * (i / GRID_SIZE), c = GRID_SIZE * (i % GRID_SIZE); j < BOARD_SIZE; j++) {
+                if (!checkCell(board[r + j / GRID_SIZE][c + (j % GRID_SIZE)], found)) {
+                    return false;
                 }
             }
         }
 
         return true;
-
     }
 
-    private static boolean checkRow(char[][] board, int row, int col, int size, boolean[] nums) {
-        for (int i = col; i < col + size; i++) {
-            if (!checkCell(board[row][i], nums)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean checkCol(char[][] board, int row, int col, int size, boolean[] nums) {
-        for (int i = row; i < row + size; i++) {
-            if (!checkCell(board[i][col], nums)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean checkCell(char c, boolean[] nums) {
+    private static boolean checkCell(char c, boolean[] found) {
         if (c == '.') {
             return true;
         }
-        int num = c - '0';
-        if (nums[num]) {
+        int num = c - '1';
+        if (found[num]) {
             return false;
         }
 
-        nums[num] = true;
+        found[num] = true;
         return true;
     }
 
     public static void main(String[] args) {
-        char[][] board = {{'.', '.', '.', '.', '.', '.', '5', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'9', '3', '.', '.', '2', '.', '4', '.', '.'},
-                {'.', '.', '7', '.', '.', '.', '3', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '3', '4', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '3', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '5', '2', '.', '.'}};
+        char[][] board = { { '.', '.', '.', '.', '.', '.', '5', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '9', '3', '.', '.', '2', '.', '4', '.', '.' },
+                { '.', '.', '7', '.', '.', '.', '3', '.', '.' },
+                { '.', '.', '.', '.', '.', '.', '.', '.', '.' },
+                { '.', '.', '.', '3', '4', '.', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '3', '.', '.', '.' },
+                { '.', '.', '.', '.', '.', '5', '2', '.', '.' } };
 
         System.out.println(isValidSudoku(board));
     }

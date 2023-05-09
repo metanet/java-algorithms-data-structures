@@ -14,21 +14,28 @@ public class ReverseLinkedListInKGroup {
         }
     }
 
-    public ListNode reverseKGroup(ListNode node, int k) {
-        if (node == null || node.next == null) {
-            return node;
+    // runtime: O(N)
+    // space: O(N/k)
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null || head.next == null || k < 2) {
+            return head;
         }
 
-        ListNode n = node;
+        // runtime: O(N)
+        // space: O(1)
+        ListNode n = head;
         for (int i = 0; i < k; i++) {
             if (n == null) {
-                return node;
+                return head;
             }
 
             n = n.next;
         }
 
-        ListNode prev = null, current = node, next;
+        // runtime: O(N)
+        // space: O(1)
+        ListNode prev = null, current = head, next;
+        // prev will be the new head
         for (int i = 0; i < k; i++) {
             next = current.next;
             current.next = prev;
@@ -36,7 +43,10 @@ public class ReverseLinkedListInKGroup {
             current = next;
         }
 
-        node.next = reverseKGroup(current, k);
+        // runtime: O(N)
+        // space: O(N/k)
+        // here, head is the tail of the reversed k-nodes
+        head.next = reverseKGroup(current, k);
 
         return prev;
     }

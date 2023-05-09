@@ -5,7 +5,40 @@ package problems.leetcode;
  */
 public class DivideTwoIntegers {
 
+    public static void main(String[] args) {
+        System.out.println(divide(2147483647, -2147483648));
+        System.out.println(divide(-2147483648, -1));
+        System.out.println(divide(-2147483648, -2147483648));
+
+        // -2147483648 / -1 = 2147483648 which is greater than 2^32 - 1 
+    }
+
+    // Note: Assume we are dealing with an environment that could only store
+    // integers within the 32-bit signed integer range: [−2^31, 2^31 − 1]. 
+    // For this problem, if the quotient is strictly greater than 2^31 - 1, 
+    // then return 2^31 - 1, and if the quotient is strictly less than -2^31, 
+    // then return -2^31.
+
+    // runtime: O(lgN)
+    // space: O(1)
     public static int divide(int dividend, int divisor) {
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        } 
+
+        int divid = Math.abs(dividend), divis = Math.abs(divisor), res = 0;
+        while (divid - divis >= 0) {
+            int x = 0; // 1, 2, 4, 8
+            for (; divid - (divis << x << 1) >= 0; x++) {
+            }
+            res += 1 << x;
+            divid -= divis << x;
+        }
+
+        return (dividend > 0) == (divisor > 0) ? res : -res;
+    }
+
+    public static int divideWith64BitInteger(int dividend, int divisor) {
         long divid = dividend, divis = divisor, quot = 0;
         divid = Math.abs(divid);
         divis = Math.abs(divis);
@@ -27,12 +60,6 @@ public class DivideTwoIntegers {
 
         quot = Math.min(quot, Integer.MAX_VALUE);
         return (int) quot;
-    }
-
-    public static void main(String[] args) {
-        int dividend = 300;
-        int divisor = 5;
-        System.out.println(divide(dividend, divisor));
     }
 
 }
