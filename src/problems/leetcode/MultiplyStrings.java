@@ -1,18 +1,18 @@
 package problems.leetcode;
 
+import java.util.Arrays;
+
 /**
  * https://leetcode.com/problems/multiply-strings/
  */
 public class MultiplyStrings {
 
     public static void main(String[] args) {
-        String num1 = "12512";
-        String num2 = "0";
-
-        String res = multiply(num1, num2);
-        System.out.println(res);
+        System.out.println(multiply("123456789", "987654321"));
     }
 
+    // runtime: O(A * B) where A and B are number of digits of the numbers
+    // space: O(M) where M is number of digits of the greater number
     public static String multiply(String num1, String num2) {
         num1 = new StringBuilder(num1).reverse().toString();
         num2 = new StringBuilder(num2).reverse().toString();

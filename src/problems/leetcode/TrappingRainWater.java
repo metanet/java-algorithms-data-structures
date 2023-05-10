@@ -30,7 +30,8 @@ public class TrappingRainWater {
 
         int totalWater = 0;
         for (int i = 0; i < n; i++) {
-            int maxHeightLeft = i > 0 ? maxHeightsLeft[i - 1] : 0, maxHeightRight = i < n - 1 ? maxHeightsRight[i + 1] : 0;
+            int maxHeightLeft = i > 0 ? maxHeightsLeft[i - 1] : 0;
+            int  maxHeightRight = i < n - 1 ? maxHeightsRight[i + 1] : 0;
             int water = Math.max(Math.min(maxHeightLeft, maxHeightRight) - heights[i], 0);
             totalWater += water;
         }
@@ -38,8 +39,9 @@ public class TrappingRainWater {
         return totalWater;
     }
 
-
-    public static int trap2(int[] heights) {
+    // runtime: O(N)
+    // space: O(N)
+    public static int trapStackBased(int[] heights) {
         if (heights == null || heights.length == 0) {
             return 0;
         }
@@ -50,15 +52,16 @@ public class TrappingRainWater {
         for (int i = 0; i < heights.length; i++) {
             int height = heights[i];
             while (stack.size() > 0 && heights[stack.peekLast()] < height) {
-                int bottomHeight = heights[stack.removeLast()];
+                int minHeight = heights[stack.removeLast()];
 
                 if (stack.isEmpty()) {
                     break;
                 }
 
-                int topHeight = min(heights[stack.peekLast()], height);
-                int distance = i - stack.peekLast() - 1;
-                totalWater += (topHeight - bottomHeight) * distance;
+                int j = stack.peekLast();
+                int maxHeight = min(heights[j], height);
+                int distance = i - j - 1;
+                totalWater += (maxHeight - minHeight) * distance;
             }
 
             stack.addLast(i);

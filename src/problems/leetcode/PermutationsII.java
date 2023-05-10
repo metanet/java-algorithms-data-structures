@@ -1,8 +1,10 @@
 package problems.leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,48 +12,55 @@ import java.util.Set;
  */
 public class PermutationsII {
 
-    private Set<List<Integer>> permutations = new HashSet<>();
+    public static List<List<Integer>> permuteUnique(int[] nums) {
+        Map<Integer, Integer> counter = new HashMap<>();
+        for (int num : nums) {
+            int c = counter.getOrDefault(num, 0);
+            counter.put(num, c + 1);
+        }
 
-    public List<List<Integer>> permute(int[] nums) {
-        permute(nums, 0);
-        return new ArrayList<>(permutations);
+        List<List<Integer>> results = new ArrayList<>();
+        List<Integer> comb = new ArrayList<>();
+        permuteUnique(comb, nums.length, counter, results);
+        return results;
     }
 
-    private void permute(int[] nums, int i) {
-        if (i == nums.length - 1) {
-            List<Integer> list = new ArrayList<>(nums.length);
-            for (int num : nums) {
-                list.add(num);
-            }
-//            System.out.println(list);
-//            if (permutations.contains(list)) {
-//                System.out.println("Already found: " + list);
-//            }
-            permutations.add(list);
+    private static void permuteUnique(
+            List<Integer> comb,
+            int n,
+            Map<Integer, Integer> counter,
+            List<List<Integer>> results) {
+        if (comb.size() == n) {
+            // make a deep copy of the resulting permutation,
+            // since the permutation would be backtracked later.
+            results.add(new ArrayList<Integer>(comb));
             return;
         }
 
-        permute(nums, i + 1);
-
-        for (int j = i + 1; j < nums.length; j++) {
-            if (nums[i] != nums[j]) {
-                swap(nums, i, j);
-                permute(nums, i + 1);
-                swap(nums, i, j);
+        for (Map.Entry<Integer, Integer> entry : counter.entrySet()) {
+            int num = entry.getKey();
+            int count = entry.getValue();
+            if (count == 0) {
+                continue;
             }
+
+            // add this number into the current combination
+            comb.add(num);
+            counter.put(num, count - 1);
+
+            // continue the exploration
+            permuteUnique(comb, n, counter, results);
+
+            // revert the choice for the next exploration
+            comb.remove(comb.size() - 1);
+            counter.put(num, count);
         }
     }
 
-    private void swap(int[] nums, int i, int j) {
-        int num = nums[i];
-        nums[i] = nums[j];
-        nums[j] = num;
-    }
-
     public static void main(String[] args) {
-        int[] nums = new int[]{2, 2, 1, 1};
+        int[] nums = new int[] { 2, 2, 1, 1 };
 
-        List<List<Integer>> permutations = new PermutationsII().permute(nums);
+        List<List<Integer>> permutations = permuteUnique(nums);
         permutations.forEach(System.out::println);
     }
 
