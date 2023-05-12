@@ -14,7 +14,6 @@ public class TrappingRainWater {
         int[] heights = new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
 //        int[] heights = new int[]{2, 0, 2};
         System.out.println(trap(heights));
-        System.out.println(trap2(heights));
     }
 
     public static int trap(int[] heights) {

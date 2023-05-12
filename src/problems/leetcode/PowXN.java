@@ -5,6 +5,8 @@ package problems.leetcode;
  */
 public class PowXN {
 
+    // runtime: O(lgN)
+    // space: O(1)
     public static double myPow(double x, int n) {
         if (n == 0) {
             return 1;
@@ -33,6 +35,8 @@ public class PowXN {
         return r1;
     }
 
+    // runtime: O(N)
+    // space: O(1)
     public static double myPow2(double x, int n) {
         long N = n;
         if (N < 0) {
