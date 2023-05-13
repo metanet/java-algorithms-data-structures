@@ -15,10 +15,7 @@ public class RotateList {
 
         @Override
         public String toString() {
-            return "ListNode{" +
-                    "val=" + val +
-                    ", next=" + next +
-                    '}';
+            return String.valueOf(val) + (next != null ? " -> " + next : "");
         }
     }
 
@@ -61,13 +58,53 @@ public class RotateList {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
         head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        head.next.next.next.next = new ListNode(5);
+        // head.next.next.next = new ListNode(4);
+        // head.next.next.next.next = new ListNode(5);
 
-        int k = 5;
 
-        ListNode newHead = new RotateList().rotateRight(head, k);
+        int k = 4;
+
+        ListNode newHead = new RotateList().rotateRight2(head, k);
         System.out.println(newHead);
+    }
+
+    public static ListNode rotateRight2(ListNode head, int k) {
+        if (head == null || head.next == null || k < 1) {
+            return head;
+        }
+
+        // 1 -> 2 -> 3    4 -> 5
+        // k=2
+        // n=1
+        // h
+        // t
+        // n=5                 t
+        // n=1
+        //           nt
+        //                nh
+
+        int n = 1;
+        ListNode tail = head;
+        while (tail.next != null) {
+            n++;
+            tail = tail.next;
+        }
+
+        k %= n;
+        if (k == 0) {
+            return head;
+        }
+        n -= k;
+        ListNode newTail = head;
+        while (--n > 0) {
+            newTail = newTail.next;
+        }
+
+        ListNode newHead = newTail.next;
+        newTail.next = null;
+        tail.next = head;
+
+        return newHead;
     }
 
 

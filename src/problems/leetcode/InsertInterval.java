@@ -20,33 +20,38 @@ public class InsertInterval {
 
     }
 
-    public static int[][] insert(int[][] intervals, int[] newInterval) {
-        List<int[]> insertedIntervals = new ArrayList<>(intervals.length);
-        int i = 0;
-        while (i < intervals.length && intervals[i][0] <= newInterval[0]) {
-            insertedIntervals.add(intervals[i++]);
+    // runtime: O(N)
+    // space: O(N)
+    public static int[][] insert(int[][] intervals1, int[] newInterval) {
+        if (intervals1 == null || intervals1.length < 1) {
+            return new int[][] {newInterval};
         }
 
-        insertedIntervals.add(newInterval);
+        int[][] intervals2 = new int[][]{newInterval};
+        int i = 0, j = 0, n = intervals1.length, m = 1;
+        int[] interval = intervals1[i][0] > intervals2[j][0] ? intervals2[j++] : intervals1[i++];
+        List<int[]> result = new ArrayList<>();
 
-        while (i < intervals.length) {
-            insertedIntervals.add(intervals[i++]);
-        }
-
-        LinkedList<int[]> mergedIntervals = new LinkedList<>();
-
-        for (int[] interval : insertedIntervals) {
-            if (mergedIntervals.isEmpty() || mergedIntervals.getLast()[1] < interval[0]) {
-                mergedIntervals.add(interval);
-                continue;
+        while (i < n || j < m) {
+            int[] next;
+            if (i < n && j < m) {
+                next = intervals1[i][0] > intervals2[j][0] ? intervals2[j++] : intervals1[i++];   
+            } else if (i < n) {
+                next = intervals1[i++];
+            } else {
+                next = intervals2[j++];
             }
-
-            int[] prev = mergedIntervals.removeLast();
-            mergedIntervals.add(new int[]{prev[0], Math.max(prev[1], interval[1])});
+            if (next[0] <= interval[1]) {
+                interval[1] = Math.max(interval[1], next[1]);
+            } else {
+                result.add(interval);
+                interval = next;
+            }
         }
 
+        result.add(interval);
 
-        return mergedIntervals.toArray(new int[0][0]);
+        return result.toArray(new int[0][0]);
     }
 
     /*

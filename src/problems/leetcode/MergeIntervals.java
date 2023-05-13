@@ -10,11 +10,14 @@ import java.util.List;
  */
 public class MergeIntervals {
 
+    // runtime: O(NlgN)
+    // space: O(N)
     public static int[][] merge(int[][] intervals) {
         if (intervals == null || intervals.length == 0) {
             return new int[0][0];
         }
 
+        // sort by start time then end time
         Comparator<Object> c = Comparator.comparingInt(interval -> ((int[]) interval)[0])
                 .thenComparingInt(interval -> ((int[]) interval)[1]);
         Arrays.sort(intervals, c);
