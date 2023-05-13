@@ -12,6 +12,8 @@ public class MinimumPathSum {
         System.out.println(minPathSum(grid));
     }
 
+    // runtime: O(N * M)
+    // space: O(N * M)
     public static int minPathSum(int[][] grid) {
         if (grid == null || grid.length == 0) {
             return 0;
