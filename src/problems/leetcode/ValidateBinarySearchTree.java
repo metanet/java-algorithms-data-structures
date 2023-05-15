@@ -20,18 +20,20 @@ public class ValidateBinarySearchTree {
         }
     }
 
-    public static boolean isValidBST(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-
-        return isValidBST(root.left, Long.MIN_VALUE, root.val) && isValidBST(root.right, root.val, Long.MAX_VALUE);
+    // runtime: O(N)
+    // space: O(H)
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, null, null);
     }
 
-    private static boolean isValidBST(TreeNode node, long upperLimit, long lowerLimit) {
-        return node == null || (node.val > upperLimit && node.val < lowerLimit
-                && isValidBST(node.left, upperLimit, node.val)
-                && isValidBST(node.right, node.val, lowerLimit));
+    private boolean isValidBST(TreeNode root, Integer min, Integer max) {
+        if (root == null) {
+            return true;
+        } else if ((min != null && root.val <= min) || (max != null && root.val >= max)) {
+            return false;
+        }
+
+        return isValidBST(root.left, min, root.val) && isValidBST(root.right, root.val, max);
     }
 
 }

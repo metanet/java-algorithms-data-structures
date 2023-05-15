@@ -24,25 +24,26 @@ public class ConvertSortedArrayToBinarySearchTree {
 
 
     public static TreeNode sortedArrayToBST(int[] nums) {
-        return nums != null ? sortedArrayToBST(nums, 0, nums.length) : null;
-    }
-
-    // start: inclusive, end: exclusive
-    private static TreeNode sortedArrayToBST(int[] nums, int start, int end) {
-        if (start >= end) {
+        if (nums == null || nums.length < 1) {
             return null;
-        } else if (start == end - 1) {
-            return new TreeNode(nums[start]);
         }
 
-        int mid = start + (end - start) / 2;
-        TreeNode node = new TreeNode(nums[mid]);
-        node.left = sortedArrayToBST(nums, start, mid);
-        node.right = sortedArrayToBST(nums, mid + 1, end);
-
-        return node;
+        return convert(nums, 0, nums.length - 1);
     }
 
+    private static TreeNode convert(int[] nums, int l, int r) {
+        if (l > r) {
+            return null;
+        }
+
+        int m = (l + r) / 2;
+        TreeNode root = new TreeNode(nums[m]);
+        root.left = convert(nums, l, m - 1);
+        root.right = convert(nums, m + 1, r);
+
+        return root;
+    }
+    
     public static void main(String[] args) {
         int[] nums = {0, 1, 2};
         TreeNode root = sortedArrayToBST(nums);

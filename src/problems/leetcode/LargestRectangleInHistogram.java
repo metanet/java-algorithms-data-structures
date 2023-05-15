@@ -26,13 +26,13 @@ public class LargestRectangleInHistogram {
         x x x x x x x x x
         x x x x x x x x x
          */
-
         int[] heights2 = {3, 3, 4, 3, 4, 5, 3, 2, 2};
 
-        int largest = largestRectangleArea(heights2);
-        System.out.println(largest);
+        System.out.println(largestRectangleArea(heights2));
     }
 
+    // runtime: O(N)
+    // space: O(1)
     public static int largestRectangleArea(int[] heights) {
         // {x, h}
         Deque<int[]> stack = new ArrayDeque<>();
@@ -47,22 +47,20 @@ public class LargestRectangleInHistogram {
             }
 
             // pop all the heights which are greater than the current height
-            int leftMostX = -1;
+            int leftMost = -1;
             while (stack.size() > 0 && stack.peekLast()[1] > h) {
                 int[] bar = stack.removeLast();
-                int area = bar[1] * (i - bar[0]);
-                maxArea = Math.max(maxArea, area);
-                leftMostX = bar[0];
+                maxArea = Math.max(maxArea, bar[1] * (i - bar[0]));
+                leftMost = bar[0];
             }
 
-            stack.addLast(new int[]{leftMostX, h});
+            stack.addLast(new int[]{leftMost, h});
             stack.addLast(new int[]{i, h});
         }
 
         while (stack.size() > 0) {
             int[] bar = stack.removeLast();
-            int area = bar[1] * (n - bar[0]);
-            maxArea = Math.max(maxArea, area);
+            maxArea = Math.max(maxArea, bar[1] * (n - bar[0]));
         }
 
         return maxArea;

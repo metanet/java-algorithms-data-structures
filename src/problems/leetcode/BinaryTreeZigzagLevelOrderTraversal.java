@@ -28,6 +28,35 @@ public class BinaryTreeZigzagLevelOrderTraversal {
         }
     }
 
+    public List<List<Integer>> zigzagLevelOrder2(TreeNode root) {
+        List<List<Integer>> levels = new ArrayList<>();
+        traverse(root, 0, levels);
+
+        for (int i = 1; i < levels.size(); i += 2) {
+            // System.out.println(levels.get(i));
+            Collections.reverse(levels.get(i));
+        }
+
+        return levels;
+    }
+
+    public void traverse(TreeNode node, int level, List<List<Integer>> levels) {
+        if (node == null) {
+            return;
+        }
+
+        List<Integer> vals;
+        if (levels.size() <= level) {
+            vals = new ArrayList<>();
+            levels.add(vals);
+        } else {
+            vals = levels.get(level);
+        }
+        vals.add(node.val);
+        traverse(node.left, level + 1, levels);
+        traverse(node.right, level + 1, levels);
+    }
+
     public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         if (root == null) {
             return Collections.emptyList();
