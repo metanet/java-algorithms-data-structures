@@ -35,7 +35,8 @@ public class BinaryTreeMaxPathSum {
             return 0;
         }
 
-        int leftSum = traverse(node.left), rightSum = traverse(node.right);
+        int leftSum = traverse(node.left);
+        int rightSum = traverse(node.right);
         // this node only, this node with left sum, this node with right sum
         int maxChildSum = Math.max(node.val, node.val + Math.max(leftSum, rightSum));
         maxSum = Math.max(maxChildSum, maxSum);

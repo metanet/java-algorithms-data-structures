@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+ * https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/submissions/
  */
-public class PopulatingNextRightPointersInEachNode {
+public class PopulatingNextRightPointersInEachNodeII {
 
     private static class Node {
         public int val;
