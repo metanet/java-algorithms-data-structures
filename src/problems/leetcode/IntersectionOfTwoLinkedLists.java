@@ -23,39 +23,19 @@ public class IntersectionOfTwoLinkedLists {
         }
     }
 
+    // https://leetcode.com/problems/intersection-of-two-linked-lists/solutions/2116221/visual-explanation-one-pass-java/
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if (headA == null || headB == null) {
             return null;
         }
 
-        ListNode nodeA = headA, nodeB = headB;
-        boolean nodeASwitched = false, nodeBSwitched = false;
-        while (true) {
-            if (nodeA == nodeB) {
-                return nodeA;
-            }
-
-            nodeA = nodeA.next;
-            nodeB = nodeB.next;
-
-            if (nodeA == null) {
-                if (nodeASwitched) {
-                    return null;
-                }
-
-                nodeA = headB;
-                nodeASwitched = true;
-            }
-
-            if (nodeB == null) {
-                if (nodeBSwitched) {
-                    return null;
-                }
-
-                nodeB = headA;
-                nodeBSwitched = true;
-            }
+        ListNode a = headA, b = headB;
+        while (a != b) { // loop until we found the first common node
+            a = a == null ? headB : a.next; // once we're done with A, move to B
+            b = b == null ? headA : b.next; // once we're done with B, move to A
         }
+        
+        return a;
     }
 
     public static void main(String[] args) {

@@ -7,13 +7,13 @@ public class NumberOf1Bits {
 
     // you need to treat n as an unsigned value
     public static int hammingWeight(int n) {
-        int weight = 0;
-        while (n != 0) {
-            n &= n - 1;
-            weight++;
+        int c = 0;
+        for (int i = 0; i < 32; i++) {
+            // System.out.println(n);
+            c += n & 1;
+            n >>= 1;
         }
-
-        return weight;
+        return c;
     }
 
     public static void main(String[] args) {

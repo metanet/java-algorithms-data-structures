@@ -77,21 +77,7 @@ public class LRUCache {
 
     private void remove(Node node) {
         if (node == null) {
-            throw new IllegalArgumentException();
-        }
-
-        if (head == node) {
-            head = node.next;
-            if (head != null) {
-                head.prev = null;
-            }
-        }
-
-        if (tail == node) {
-            tail = node.prev;
-            if (tail != null) {
-                tail.next = null;
-            }
+            return;
         }
 
         if (node.prev != null) {
@@ -102,10 +88,14 @@ public class LRUCache {
             node.next.prev = node.prev;
         }
 
-        node.next = null;
-        node.prev = null;
-    }
+        if (head == node) {
+            head = node.next;
+        }
 
+        if (tail == node) {
+            tail = node.prev;
+        }
+    }
 
     public static void main(String[] args) {
         LRUCache cache1 = new LRUCache(10);
