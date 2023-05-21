@@ -34,53 +34,55 @@ public class LowestCommonAncestorOfBinaryTree {
         root.left.right.left = new TreeNode(7);
         root.left.right.right = new TreeNode(4);
 
-        TreeNode ancestor = new LowestCommonAncestorOfBinaryTree().lowestCommonAncestor(root, new TreeNode(6), new TreeNode(4));
+        TreeNode ancestor = new LowestCommonAncestorOfBinaryTree().lowestCommonAncestor(root, new TreeNode(6),
+                new TreeNode(4));
 
         System.out.println(ancestor.val);
     }
-
-    private List<List<TreeNode>> knownPaths = new ArrayList<>();
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root.val == p.val || root.val == q.val) {
             return root;
         }
 
-        lowestCommonAncestor(root, p, q, new ArrayList<>());
-
-        assert knownPaths.size() == 2;
-
-        List<TreeNode> path1 = knownPaths.get(0), path2 = knownPaths.get(1);
-        TreeNode ancestor = path1.get(0);
-        for (int i = 1; i < Math.min(path1.size(), path2.size()); i++) {
-            TreeNode node1 = path1.get(i), node2 = path2.get(i);
-            if (node1 == node2) {
-                ancestor = node1;
-            } else {
-                break;
-            }
+        TreeNode l = lowestCommonAncestor(root.left, p, q);
+        TreeNode r = lowestCommonAncestor(root.right, p, q);
+        if (l == null) {
+            return r;
+        } else if (r == null) {
+            return l;
         }
+        
+        return root;
+    }
 
+    private TreeNode ancestor;
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        traverse(root, p.val, q.val);
         return ancestor;
     }
 
-    private void lowestCommonAncestor(TreeNode node, TreeNode p, TreeNode q, List<TreeNode> path) {
-        if (node == null || knownPaths.size() == 2) {
-            return;
+    private boolean traverse(TreeNode root, int p, int q) {
+        if (root == null) {
+            return false;
         }
 
-        path.add(node);
-
-        if (node.val == p.val) {
-            knownPaths.add(new ArrayList<>(path));
-        } else if (node.val == q.val) {
-            knownPaths.add(new ArrayList<>(path));
+        if (root.val < Math.min(p, q)) {
+            return traverse(root.right, p, q);
+        } else if (root.val > Math.max(p, q)) {
+            return traverse(root.left, p, q);
         }
 
-        lowestCommonAncestor(node.left, p, q, path);
-        lowestCommonAncestor(node.right, p, q, path);
+        boolean foundHere = (root.val == p || root.val == q);
+        boolean foundLeft = traverse(root.left, p, q);
+        boolean foundRight = traverse(root.right, p, q);
+        // System.out.println("val=" + root.val + ", here=" + foundHere + ", left=" +
+        // foundLeft + ", right=" + foundRight);
+        if ((foundHere && (foundLeft || foundRight)) || (foundLeft && foundRight)) {
+            ancestor = root;
+        }
 
-        path.remove(path.size() - 1);
+        return foundHere || foundLeft || foundRight;
     }
-
 }

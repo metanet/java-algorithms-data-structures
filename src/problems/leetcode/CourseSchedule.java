@@ -138,7 +138,6 @@ public class CourseSchedule {
     public static boolean canFinish(int numCourses, int[][] prerequisites) {
         // course -> preq course
         Map<Integer, List<Integer>> edges = new HashMap<>();
-
         for (int[] p : prerequisites) {
             edges.computeIfAbsent(p[0], (k) -> new ArrayList<>()).add(p[1]);
         }

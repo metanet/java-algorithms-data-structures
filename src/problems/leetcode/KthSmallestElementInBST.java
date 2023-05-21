@@ -17,45 +17,24 @@ public class KthSmallestElementInBST {
         }
     }
 
-//    public int kthSmallest(TreeNode root, int k) {
-//        List<Integer> visited = new ArrayList<>();
-//        kthSmallest(root, k, visited);
-//        return visited.get(k - 1);
-//    }
+    private int i;
+    private int value;
 
     public int kthSmallest(TreeNode root, int k) {
-        kthSmallest2(root, k);
-        return found.val;
+        traverse(root, k);
+        return value;
     }
 
-    private void kthSmallest(TreeNode node, int k, List<Integer> visited) {
-        if (node == null) {
+    private void traverse(TreeNode root, int k) {
+        if (root == null) {
             return;
         }
-
-        kthSmallest(node.left, k, visited);
-        visited.add(node.val);
-        if (visited.size() < k) {
-            kthSmallest(node.right, k, visited);
-        }
-    }
-
-    private int count;
-    private TreeNode found;
-
-    private void kthSmallest2(TreeNode node, int k) {
-        if (node == null) {
+        traverse(root.left, k);
+        if (++i == k) {
+            value = root.val;
             return;
         }
-
-        kthSmallest2(node.left, k);
-
-        if (found == null && ++count == k) {
-            found = node;
-            return;
-        }
-
-        kthSmallest2(node.right, k);
+        traverse(root.right, k);
     }
 
 }
